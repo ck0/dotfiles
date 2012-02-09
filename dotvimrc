@@ -37,6 +37,9 @@ Bundle 'wincent/Command-T'
 
 filetype plugin indent on
 
+set t_Co=256
+colorscheme wombat256mod
+
 set number
 set ruler
 
@@ -49,6 +52,8 @@ set incsearch
 set smarttab
 set autoindent
 set smartindent
+" see `:h si`
+inoremap # X#
 
 set mouse=a
 set ttymouse=xterm2
