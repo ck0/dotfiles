@@ -1,11 +1,15 @@
 ZSHRC=$HOME/.zshrc
 ALIASES=$HOME/.aliases
 AUTO_ALIASES=$ALIASES/auto
+PROMPTIFLE=$HOME/.prompt
 
 export EDITOR=vim
 
+autoload -U promptinit && promptinit
+autoload -U colors && colors
+
 # Lines configured by zsh-newuser-install
-HISTFILE=~/.history
+HISTFILE=$HOME/.history
 HISTSIZE=10000
 SAVEHIST=1000000
 setopt autocd extendedglob
@@ -68,8 +72,11 @@ setopt EXTENDED_HISTORY
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_VERIFY
 
-# neat prompt
-source ~/.prompt
+if [[ -f $PROMPTIFLE ]]; then
+  source $PROMPTIFLE
+else
+  prompt pws
+fi
 
 # `man zshcompsys`
 # The following lines were added by compinstall
