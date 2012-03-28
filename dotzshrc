@@ -3,6 +3,9 @@ ALIASES=$HOME/.aliases
 AUTO_ALIASES=$ALIASES/auto
 PROMPTIFLE=$HOME/.prompt
 
+PYTHONRC=$HOME/.pythonrc
+RUBYRC=$HOME/.rubyrc
+
 export EDITOR=vim
 
 autoload -U promptinit && promptinit
@@ -98,6 +101,6 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-source .pythonrc
-source .rubyrc
+source $PYTHONRC
+source $RUBYRC
 
