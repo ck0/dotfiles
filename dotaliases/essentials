@@ -1,0 +1,22 @@
+# dates
+alias longstardate="date +%Y%m.%d.%H%M"
+alias shortdate="date +%d%b"
+alias epoch="date +%s"
+
+# findfile, findfilefollow
+ff () { find -iname "*$1*" | grep -i "$1" }
+fff () { find -iname "*$1*" -follow | grep -i "$1"}
+
+# grepall, grepallfollow
+ga () { find . -type f | xargs grep -i "$1"}
+gaa () { find . -type f -follow | xargs grep -i "$1"}
+
+alias s="screen -A -fa -U -D -R"
+alias sls="screen -ls"
+
+mcd () { mkdir -p $1 && cd $1 }
+
+# dir stack management
+alias d="dirs -lp"
+alias pd="popd"
+

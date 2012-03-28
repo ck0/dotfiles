@@ -1,0 +1,96 @@
+ZSHRC=$HOME/.zshrc
+ALIASES=$HOME/.aliases
+AUTO_ALIASES=$ALIASES/auto
+
+export EDITOR=vim
+
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.history
+HISTSIZE=10000
+SAVEHIST=1000000
+setopt autocd extendedglob
+unsetopt beep
+bindkey -v
+# End of lines configured by zsh-newuser-install
+
+# source ~/.aliases/**/*
+for file in $(find $ALIASES -follow); do source $file; done
+
+# edit this file, and source it
+alias vizsh="vim $ZSHRC && source $ZSHRC"
+
+# tack on an alias
+aaa () { echo "alias $1=\"$2\"\t# autoadded on $(longstardate)" >> $AUTO_ALIASES && source $AUTO_ALIASES && which $1 }
+
+################################################################################
+# and these are probably better set somewhere else
+################################################################################
+setopt AUTO_CD
+setopt EXTENDED_GLOB
+#setopt SHARE_HISTORY # leaving this here to remind you never to set this again
+setopt HIST_REDUCE_BLANKS
+
+# problematic
+setopt CDABLE_VARS
+
+bindkey -M viins '^?' backward-delete-char
+bindkey -M viins '^H' backward-delete-char
+
+bindkey "^[[A" history-beginning-search-backward
+bindkey "^[[B" history-beginning-search-forward
+
+# :nmap <Space> i
+bindkey -M vicmd ' ' vi-insert
+
+setopt histignoredups
+setopt histignorespace
+
+################################################################################
+# uh, maybe move these? ########################################################
+################################################################################
+
+export LESS="-iFRX"
+
+
+################################################################################
+# env improvement ##############################################################
+################################################################################
+
+bindkey "^R" history-incremental-search-backward
+bindkey "^T" push-line-or-edit
+
+setopt ALWAYS_TO_END
+setopt AUTO_NAME_DIRS
+setopt AUTO_PUSHD
+setopt NO_BEEP
+
+setopt EXTENDED_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_VERIFY
+
+# neat prompt
+source ~/.prompt
+
+# `man zshcompsys`
+# The following lines were added by compinstall
+zstyle ':completion:*' completer _expand _complete _ignored _match _approximate
+zstyle ':completion:*' completions 1
+zstyle ':completion:*' format 'completing %d'
+zstyle ':completion:*' glob 1
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} r:|[._-]=** r:|=** l:|=*'
+zstyle ':completion:*' match-original both
+zstyle ':completion:*' max-errors 3
+zstyle ':completion:*' prompt '%e%e%e'
+zstyle ':completion:*' substitute 1
+#zstyle :compinstall filename '/home/chris/.compinstalled'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+source .pythonrc
+source .rubyrc
+
