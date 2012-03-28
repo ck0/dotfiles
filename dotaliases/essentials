@@ -20,3 +20,5 @@ mcd () { mkdir -p $1 && cd $1 }
 alias d="dirs -lp"
 alias pd="popd"
 
+readlinkf () {(cd -P $1 && echo $(pwd))}
+
