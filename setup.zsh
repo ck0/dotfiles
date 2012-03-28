@@ -18,11 +18,12 @@ function dotrelink () {
   mkdir $backupdir
 
   dotrelink dotaliases .aliases
-  dotrelink dotvimrc .vimrc
   dotrelink dotinputrc .inputrc
-  dotrelink dotzshrc .zshrc
   dotrelink dotpythonrc .pythonrc
   dotrelink dotrubyrc .rubyrc
+  dotrelink dotscreenrc .screenrc
+  dotrelink dotvimrc .vimrc
+  dotrelink dotzshrc .zshrc
 
   source .zshrc
 )
