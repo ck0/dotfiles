@@ -1,0 +1,11 @@
+"1.0rc1
+
+loadplugins '\.(js|penta)$'
+group user
+map -count -modes=n,v j -builtin <count>16j
+map -count -modes=n,v k -builtin <count>16k
+set editor='/prog/macvim/src/MacVim/gvim -f +<line> +"sil! call cursor(0, <column>)" <file>'
+set guioptions=CsM
+set hlfind
+
+" vim: set ft=pentadactyl:
