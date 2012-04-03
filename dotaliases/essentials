@@ -1,11 +1,17 @@
+alias ls="ls -GF"
+alias ll="ls -lh"
+alias l="ll"
+alias la="ls -lah"
+alias lll="la"
+
 # dates
 alias longstardate="date +%Y%m.%d.%H%M"
 alias shortdate="date +%d%b"
 alias epoch="date +%s"
 
 # findfile, findfilefollow
-ff () { find -iname "*$1*" | grep -i "$1" }
-fff () { find -iname "*$1*" -follow | grep -i "$1"}
+ff () { find . -iname "*$1*" | grep -i "$1" }
+fff () { find . -iname "*$1*" -follow | grep -i "$1"}
 
 # grepall, grepallfollow
 ga () { find . -type f | xargs grep -i "$1"}
@@ -21,4 +27,5 @@ alias d="dirs -lp"
 alias pd="popd"
 
 readlinkf () {(cd -P $1 && echo $(pwd))}
+alias rf="readlinkf"
 
