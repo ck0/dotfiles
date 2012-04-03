@@ -22,6 +22,8 @@ bindkey "^[[b" focus
 # before
 altscreen on
 
+ignorecase on
+
 #term screen-256color
 
 # terminfo and termcap for nice 256 color terminal
