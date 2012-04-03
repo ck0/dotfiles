@@ -1,6 +1,6 @@
 ZSHRC=$HOME/.zshrc
-ALIASES=$HOME/.aliases
-AUTO_ALIASES=$ALIASES/auto
+export ALIASES=$HOME/.aliases
+export AUTO_ALIASES=$ALIASES/auto
 PROMPTIFLE=$HOME/.prompt
 
 PYTHONRC=$HOME/.pythonrc
@@ -32,10 +32,15 @@ aaa () { echo "alias $1=\"$2\"\t# autoadded on $(longstardate)" >> $AUTO_ALIASES
 ################################################################################
 # and these are probably better set somewhere else
 ################################################################################
-setopt AUTO_CD
-setopt EXTENDED_GLOB
-#setopt SHARE_HISTORY # leaving this here to remind you never to set this again
+
+setopt INC_APPEND_HISTORY
+setopt EXTENDED_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
+
+setopt HIST_FIND_NO_DUPS
+setopt HIST_EXPIRE_DUPS_FIRST
 
 # problematic
 setopt CDABLE_VARS
@@ -48,9 +53,6 @@ bindkey "^[[B" history-beginning-search-forward
 
 # :nmap <Space> i
 bindkey -M vicmd ' ' vi-insert
-
-setopt histignoredups
-setopt histignorespace
 
 ################################################################################
 # uh, maybe move these? ########################################################
@@ -81,6 +83,21 @@ else
   prompt pws
 fi
 
+#http://deanproxy.com/blog/posts/2011/11/6-quick-and-easy-git-branch-prompt-for-zsh--and-a-quick-rant-.html
+parse_git_branch () {
+	git branch 2> /dev/null | grep "*" | sed -e 's/* \(.*\)/ (\1)/g'
+}
+
+parse_screen_session() {
+	echo $STY | sed -e "s/[0-9\.]*//"
+}
+
+# FIXME just update on git branch changes!
+export PROMPT=%{$fg[black]%}%{$bg[green]%}\[$(parse_screen_session)\]%{$reset_color%}$PROMPT
+
+#%K{white}%F{red}%(?..(%?%))%K{black}%F{white}%B%(2L.+.)%(1j.[%j].)%F{yellow}%(t.Ding!.%D{%L:%M})%f%k%b%#
+
+
 # `man zshcompsys`
 # The following lines were added by compinstall
 zstyle ':completion:*' completer _expand _complete _ignored _match _approximate
@@ -103,4 +120,13 @@ compinit
 
 source $PYTHONRC
 source $RUBYRC
+
+# move to pathmagic
+# macports
+export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export MANPATH=/opt/local/share/man:$MANPATH
+
+export PATH=/usr/local/bin:$PATH
+export PATH=/prog:$PATH
+export PATH=/prog/macvim/src/MacVim:$PATH
 

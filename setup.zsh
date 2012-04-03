@@ -17,8 +17,15 @@ function dotrelink () {
   cd $HOME
   mkdir $backupdir
 
+  # nope
+  #for f in $(find $dotdir -type -f -name "*dot"); do
+    #dotrelink $f $(echo $f | sed "s/dot/./")
+  #done
+
   dotrelink dotaliases .aliases
+  dotrelink dotctags .ctags
   dotrelink dotinputrc .inputrc
+  dotrelink dotpentadactylrc .pentadactylrc
   dotrelink dotpythonrc .pythonrc
   dotrelink dotrubyrc .rubyrc
   dotrelink dotscreenrc .screenrc

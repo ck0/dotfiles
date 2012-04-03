@@ -1,1 +1,4 @@
 Various *rc files, organized according to my whims.
+
+Run `setup.zsh` to link each `dotfoo` file as `$HOME/.foo`, and move existing dotfiles to a backup dir.
+
