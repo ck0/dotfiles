@@ -1,5 +1,4 @@
-alias ls="ls -GF"
-alias ll="ls -lh"
+alias ll="ls -GFlh"
 alias l="ll"
 alias la="ls -lah"
 alias lll="la"
@@ -10,12 +9,19 @@ alias shortdate="date +%d%b"
 alias epoch="date +%s"
 
 # findfile, findfilefollow
-ff () { find . -iname "*$1*" | grep -i "$1" }
-fff () { find . -iname "*$1*" -follow | grep -i "$1"}
+ff () { find . -type f -iname "*$1*" | grep -i "$1" }
+fff () { find . -type f -iname "*$1*" -follow | grep -i "$1"}
+
+fd () { find . -type d -iname "*$1*" | grep -i "$1" }
+fdf () { find . -type d -iname "*$1*" -follow | grep -i "$1"}
 
 # grepall, grepallfollow
-ga () { find . -type f | xargs grep -i "$1"}
-gaa () { find . -type f -follow | xargs grep -i "$1"}
+ga () {find . -type f -print0 | xargs -0 egrep "$1"}
+gaa () {find . -type f -follow -print0 | xargs -0 egrep "$1"}
+
+# grepall select by suffix
+gas () {find . -type f -name "*.$2" -print0 | xargs -0 egrep -n "$1" --color=auto}
+gaas () {find . -type f -follow -name "*.$2" -print0 | xargs -0 egrep -n "$1" --color=auto}
 
 alias s="screen -A -fa -U -D -R"
 alias sls="screen -ls"
@@ -29,3 +35,6 @@ alias pd="popd"
 readlinkf () {(cd -P $1 && echo $(pwd))}
 alias rf="readlinkf"
 
+alias vialiases="( cd $ALIASES && vim essentials ) && source $ZSHRC"
+
+# vim:ft=zsh:noet:sw=2 ts=2
