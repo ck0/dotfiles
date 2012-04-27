@@ -1,10 +1,16 @@
 ZSHRC=$HOME/.zshrc
+
 export ALIASES=$HOME/.aliases
 export AUTO_ALIASES=$ALIASES/auto
+
 PROMPTIFLE=$HOME/.prompt
 
 PYTHONRC=$HOME/.pythonrc
 RUBYRC=$HOME/.rubyrc
+
+PATHMUNGE=$HOME/.pathmunge
+
+GIT_COMPLETION=/prog/git-completion.bash
 
 export EDITOR=vim
 
@@ -26,12 +32,14 @@ for file in $(find $ALIASES -follow); do source $file; done
 # edit this file, and source it
 alias vizsh="vim $ZSHRC && source $ZSHRC"
 
-# tack on an alias
-aaa () { echo "alias $1=\"$2\"\t# autoadded on $(longstardate)" >> $AUTO_ALIASES && source $AUTO_ALIASES && which $1 }
+# add an alias
+aaa () {
+	echo "alias $1=\"$2\"" >> $AUTO_ALIASES
+	source $AUTO_ALIASES 
+	which $1
+}
 
-################################################################################
-# and these are probably better set somewhere else
-################################################################################
+######### setopts ##############################################################
 
 setopt INC_APPEND_HISTORY
 setopt EXTENDED_HISTORY
@@ -42,8 +50,20 @@ setopt HIST_REDUCE_BLANKS
 setopt HIST_FIND_NO_DUPS
 setopt HIST_EXPIRE_DUPS_FIRST
 
-# problematic
-setopt CDABLE_VARS
+setopt ALWAYS_TO_END
+setopt AUTO_NAME_DIRS
+setopt AUTO_PUSHD
+setopt NO_BEEP
+
+setopt EXTENDED_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_VERIFY
+
+# maybe you'll understand this someday when you're older
+#setopt CDABLE_VARS
+
+
+######### bindkeys #############################################################
 
 bindkey -M viins '^?' backward-delete-char
 bindkey -M viins '^H' backward-delete-char
@@ -54,28 +74,11 @@ bindkey "^[[B" history-beginning-search-forward
 # :nmap <Space> i
 bindkey -M vicmd ' ' vi-insert
 
-################################################################################
-# uh, maybe move these? ########################################################
-################################################################################
-
 export LESS="-iFRX"
-
-
-################################################################################
-# env improvement ##############################################################
-################################################################################
 
 bindkey "^R" history-incremental-search-backward
 bindkey "^T" push-line-or-edit
 
-setopt ALWAYS_TO_END
-setopt AUTO_NAME_DIRS
-setopt AUTO_PUSHD
-setopt NO_BEEP
-
-setopt EXTENDED_HISTORY
-setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_VERIFY
 
 if [[ -f $PROMPTIFLE ]]; then
   source $PROMPTIFLE
@@ -92,11 +95,15 @@ parse_screen_session() {
 	echo $STY | sed -e "s/[0-9\.]*//"
 }
 
-# FIXME just update on git branch changes!
-export PROMPT=%{$fg[black]%}%{$bg[green]%}\[$(parse_screen_session)\]%{$reset_color%}$PROMPT
+# source $GIT_COMPLETION
+
+## FIXME just update on git branch changes!
+#export PROMPT=%{$fg[black]%}%{$bg[green]%}\[$(parse_screen_session)\]%{$reset_color%}$PROMPT
+#export PROMPT=%{$fg[black]%}%{$bg[green]%}\[$(parse_screen_session)\]%{$reset_color%}%{$fg[red]%}%{$bg[blue]%}\[$(__git_ps1)\]%{$reset_color%}$PROMPT
 
 #%K{white}%F{red}%(?..(%?%))%K{black}%F{white}%B%(2L.+.)%(1j.[%j].)%F{yellow}%(t.Ding!.%D{%L:%M})%f%k%b%#
 
+export PROMPT=%{$fg[black]%}%{$bg[green]%}\[$(parse_screen_session)\]%{$reset_color%}$PROMPT
 
 # `man zshcompsys`
 # The following lines were added by compinstall
@@ -112,7 +119,7 @@ zstyle ':completion:*' match-original both
 zstyle ':completion:*' max-errors 3
 zstyle ':completion:*' prompt '%e%e%e'
 zstyle ':completion:*' substitute 1
-#zstyle :compinstall filename '/home/chris/.compinstalled'
+#zstyle :compinstall filename '$HOME/compinstalled'
 
 autoload -Uz compinit
 compinit
@@ -121,12 +128,4 @@ compinit
 source $PYTHONRC
 source $RUBYRC
 
-# move to pathmagic
-# macports
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-export MANPATH=/opt/local/share/man:$MANPATH
-
-export PATH=/usr/local/bin:$PATH
-export PATH=/prog:$PATH
-export PATH=/prog/macvim/src/MacVim:$PATH
-
+source $PATHMUNGE

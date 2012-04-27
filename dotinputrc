@@ -3,4 +3,8 @@ set keymap vi
 
 set bell-style none
 set show-all-if-ambiguous on
+set completion-ignore-case On
+
+"\e[A": history-search-backward
+"\e[B": history-search-forward
 

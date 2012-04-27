@@ -17,9 +17,9 @@ execute 'source'.expand(s:UserBundles)
 
 " my preferred settings for text files, should be overridden if vim picks up
 " the filetype
-set tabstop=2
-set shiftwidth=2
-set noexpandtab
+set tabstop=4
+set shiftwidth=4
+set expandtab
 
 syntax on
 filetype plugin indent on
@@ -107,7 +107,8 @@ endfunction
 
 " *plugin options* {{{1 
 " *Taglist* {{{2 
-let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
+let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
+let Tlist_Show_One_File = 1
 " }}}
 
 " *Command-T* {{{2 
@@ -133,6 +134,11 @@ noremap gD <C-]>
 " *remaps* {{{1 
 noremap <Space> i
 
+""nmap gh <S-h>
+"nnoremap <S-h> <C-o>
+""nmap gl <S-h>
+"nnoremap <S-l> <Tab>
+
 " because there's no setting verymagic
 " cnoremap s/ s/\v
 
@@ -153,6 +159,9 @@ nnoremap <silent> <Leader>b :CommandTBuffer<CR>
 " *statusline* {{{1 
 "see :h fugitive-statusline
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+
+set statusline+=%<%f%=%([%{Tlist_Get_Tagname_By_Line()}]%)
+
 set statusline+=%{SyntasticStatuslineFlag()}
 
 set laststatus=2 " always show the statusline
@@ -161,6 +170,70 @@ set laststatus=2 " always show the statusline
 " keychords!
 call arpeggio#load()
 execute 'source'.expand(s:UserArpeggioRemaps)
+
+"supposed to let me `gf` to imports, doesn't
+"from http://sontek.net/python-with-a-modular-ide-vim
+"wow TODO: http://sontek.net/turning-vim-into-a-modern-python-ide
+python << EOF
+import os
+import sys
+import vim
+for p in sys.path:
+    if os.path.isdir(p):
+        vim.command(r"set path+=%s" % (p.replace(" ", r"\ ")))
+EOF
+
+
+" from https://dev.launchpad.net/UltimateVimPythonSetup
+" also TODO: ^
+
+" Use F7/Shift-F7 to add/remove a breakpoint (pdb.set_trace)
+" Totally cool.
+python << EOF
+# def SetBreakpoint():
+#     import re
+#     nLine = int( vim.eval( 'line(".")'))
+# 
+#     strLine = vim.current.line
+#     strWhite = re.search( '^(\s*)', strLine).group(1)
+# 
+#     vim.current.buffer.append(
+#        "%(space)spdb.set_trace() %(mark)s Breakpoint %(mark)s" %
+#          {'space':strWhite, 'mark': '#' * 30}, nLine - 1)
+# 
+#     for strLine in vim.current.buffer:
+#         if strLine == "import pdb":
+#             break
+#     else:
+#         vim.current.buffer.append( 'import pdb', 0)
+#         vim.command( 'normal j1')
+# 
+# vim.command( 'map <F8> :py SetBreakpoint()<cr>')
+# 
+# def RemoveBreakpoints():
+#     import re
+# 
+#     nCurrentLine = int( vim.eval( 'line(".")'))
+# 
+#     nLines = []
+#     nLine = 1
+#     for strLine in vim.current.buffer:
+#         if strLine == "import pdb" or strLine.lstrip()[:15] == "pdb.set_trace()":
+#             nLines.append( nLine)
+#         nLine += 1
+# 
+#     nLines.reverse()
+# 
+#     for nLine in nLines:
+#         vim.command( "normal %dG" % nLine)
+#         vim.command( "normal dd")
+#         if nLine < nCurrentLine:
+#             nCurrentLine -= 1
+# 
+#     vim.command( "normal %dG" % nCurrentLine)
+# 
+# vim.command( "map <F9> :py RemoveBreakpoints()<cr>")
+EOF
 
 " vim:foldmethod=marker
 " vim:noet:sw=2 ts=2

@@ -2,8 +2,10 @@
 
 loadplugins '\.(js|penta)$'
 group user
+map -count -modes=n <C-S-Tab> <count><Pass>
 map -count -modes=n,v j -builtin <count>16j
 map -count -modes=n,v k -builtin <count>16k
+map -count -modes=n <C-Tab> <count><Pass>
 set editor='/prog/macvim/src/MacVim/gvim -f +<line> +"sil! call cursor(0, <column>)" <file>'
 set guioptions=CsM
 set hlfind

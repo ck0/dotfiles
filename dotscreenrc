@@ -1,11 +1,9 @@
 vbell off
 vbell_msg "Ring"
 
-# detach on hangup
-autodetach on
+autodetach on # detach on hangup
 
-# don't display copyright page
-startup_message off
+startup_message off # don't display copyright page
 
 #caption always
 #caption string '%-w%{bk}%n %t%{dd}%+w %=%H %0c'
@@ -13,27 +11,18 @@ startup_message off
 # setup the caption
 hardstatus alwayslastline "%{-b gk}%-w%{+b kg}%50>%n %t%{-b gk}%+w %=%C%<"
 
-# right/left bindings
 bindkey "^[[c" next
 bindkey "^[[d" prev
 bindkey "^[[b" focus
 
-# Set the altscreen so that when you quit vi, it will go back to what it was
-# before
 altscreen on
-
 ignorecase on
 
-#term screen-256color
-
 # terminfo and termcap for nice 256 color terminal
-#
-# allow bold colors
-attrcolor b ".I"
-# set some colors
-termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
-# and erase with bg color
-defbce "off"
+# term screen-256color
+attrcolor b ".I"                                          # allow bold colors
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'  # set some colors
+defbce "off"                                              # and erase with bg color
 
 defscrollback 10000
 
